@@ -1,0 +1,22 @@
+# This is a placeholder .litematic file for demonstration
+# In a real implementation, this would be a binary NBT format file
+# containing the actual block data, metadata, and structure information
+
+[Metadata]
+Name=Example House
+Author=AppyProx
+Description=A simple house for testing building automation
+Size=16x12x16
+TotalBlocks=512
+Difficulty=medium
+
+[Materials]
+oak_planks=256
+stone_bricks=128
+glass=32
+oak_log=16
+oak_door=2
+torch=8
+
+[Regions]
+main=0,0,0,16,12,16

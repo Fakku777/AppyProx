@@ -90,6 +90,48 @@ class AppyProxAPI {
       }
     });
 
+    // Schematic management endpoints
+    this.app.get('/schematics', (req, res) => {
+      try {
+        const schematics = this.proxy.automationEngine.litematicaManager.listSchematics();
+        res.json({ success: true, schematics });
+      } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
+      }
+    });
+
+    this.app.post('/tasks/build', (req, res) => {
+      const { schematic, location, cluster = 'building_cluster' } = req.body;
+      try {
+        const buildTask = this.proxy.automationEngine.litematicaManager.createBuildTask(schematic, {
+          location,
+          clusterId: cluster
+        });
+        res.json({ 
+          success: true, 
+          buildTaskId: buildTask.id,
+          message: `Started building ${schematic} at ${JSON.stringify(location)}`
+        });
+      } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
+      }
+    });
+
+    // Advanced mining endpoint
+    this.app.post('/tasks/advanced-mining', (req, res) => {
+      const { target = 'diamond', area, formation = 'spread', depth = 16, cluster } = req.body;
+      try {
+        // This would integrate with the enhanced Baritone interface
+        res.json({ 
+          success: true, 
+          message: `Advanced mining operation planned for ${target}`,
+          parameters: { target, area, formation, depth, cluster }
+        });
+      } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
+      }
+    });
+
     // Account information
     this.app.get('/accounts', (req, res) => {
       const clients = this.proxy.proxyServer.getClients();

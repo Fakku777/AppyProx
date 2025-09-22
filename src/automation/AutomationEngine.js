@@ -4,6 +4,7 @@ const WikiScraper = require('./WikiScraper');
 const TaskPlanner = require('./TaskPlanner');
 const BaritoneInterface = require('./BaritoneInterface');
 const RecipeAnalyzer = require('./RecipeAnalyzer');
+const LitematicaManager = require('./LitematicaManager');
 
 /**
  * Intelligent automation engine that uses Minecraft Wiki data to plan and execute tasks
@@ -19,6 +20,7 @@ class AutomationEngine extends EventEmitter {
     this.taskPlanner = new TaskPlanner(config, this.logger);
     this.baritone = new BaritoneInterface(config, this.logger);
     this.recipeAnalyzer = new RecipeAnalyzer(this.wikiScraper, this.logger);
+    this.litematicaManager = new LitematicaManager(config, this.logger);
     
     // Task management
     this.activeTasks = new Map(); // taskId -> task info
@@ -49,6 +51,7 @@ class AutomationEngine extends EventEmitter {
       await this.wikiScraper.initialize();
       await this.taskPlanner.initialize();
       await this.baritone.initialize();
+      await this.litematicaManager.initialize();
       
       // Start task processing loop
       this.processingInterval = setInterval(() => {
