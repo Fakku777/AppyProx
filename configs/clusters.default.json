@@ -1,0 +1,62 @@
+{
+  "clusters": [
+    {
+      "id": "default-mining-cluster",
+      "name": "Mining Group",
+      "created": 1700000000000,
+      "maxSize": 5,
+      "autoReconnect": true,
+      "reconnectInterval": 7000,
+      "members": [],
+      "leader": null,
+      "status": "idle",
+      "currentTask": null,
+      "settings": {
+        "followLeader": false,
+        "shareInventory": true,
+        "syncMovement": false,
+        "autoMining": true,
+        "returnToBase": true
+      }
+    },
+    {
+      "id": "default-building-cluster",
+      "name": "Building Group",
+      "created": 1700000000000,
+      "maxSize": 3,
+      "autoReconnect": true,
+      "reconnectInterval": 7000,
+      "members": [],
+      "leader": null,
+      "status": "idle",
+      "currentTask": null,
+      "settings": {
+        "followLeader": true,
+        "shareInventory": true,
+        "syncMovement": true,
+        "autoBuilding": true,
+        "useSchematic": true
+      }
+    },
+    {
+      "id": "default-exploration-cluster",
+      "name": "Exploration Group",
+      "created": 1700000000000,
+      "maxSize": 8,
+      "autoReconnect": true,
+      "reconnectInterval": 7000,
+      "members": [],
+      "leader": null,
+      "status": "idle",
+      "currentTask": null,
+      "settings": {
+        "followLeader": false,
+        "shareInventory": false,
+        "syncMovement": false,
+        "autoExploration": true,
+        "mapChunks": true,
+        "avoidDanger": true
+      }
+    }
+  ]
+}
