@@ -11,6 +11,7 @@ const ProxyServer = require('./ProxyServer');
 const ClusterManager = require('../clustering/ClusterManager');
 const AutomationEngine = require('../automation/AutomationEngine');
 const CentralNode = require('../central-node/CentralNode');
+const AppyProxAPI = require('../api/index');
 const Logger = require('./utils/Logger');
 
 class AppyProx {
@@ -24,6 +25,7 @@ class AppyProx {
     this.clusterManager = null;
     this.automationEngine = null;
     this.centralNode = null;
+    this.apiServer = null;
     
     this.isRunning = false;
   }
@@ -67,6 +69,9 @@ class AppyProx {
       if (this.config.central_node.enabled) {
         this.centralNode = new CentralNode(this.config.central_node, this.logger);
       }
+
+      // Initialize API server
+      this.apiServer = new AppyProxAPI(this.config.api, this.logger, this);
 
       // Connect components
       this.connectComponents();
@@ -134,6 +139,12 @@ class AppyProx {
         this.logger.info(`Central node started on port ${this.config.central_node.web_interface_port}`);
       }
 
+      // Start API server
+      if (this.apiServer) {
+        await this.apiServer.start();
+        this.logger.info(`API server started on port ${this.config.api.port}`);
+      }
+
       this.isRunning = true;
       this.logger.info('🚀 AppyProx is now running!');
 
@@ -156,6 +167,11 @@ class AppyProx {
       this.logger.info('Shutting down AppyProx...');
 
       // Stop components in reverse order
+      if (this.apiServer) {
+        await this.apiServer.stop();
+        this.logger.info('API server stopped');
+      }
+
       if (this.centralNode) {
         await this.centralNode.stop();
         this.logger.info('Central node stopped');
@@ -215,7 +231,11 @@ class AppyProx {
       proxy: this.proxyServer ? this.proxyServer.getStatus() : null,
       clusters: this.clusterManager ? this.clusterManager.getStatus() : null,
       automation: this.automationEngine ? this.automationEngine.getStatus() : null,
-      centralNode: this.centralNode ? this.centralNode.getStatus() : null
+      centralNode: this.centralNode ? this.centralNode.getStatus() : null,
+      api: {
+        enabled: this.config.api.enabled,
+        port: this.config.api.port
+      }
     };
   }
 }
