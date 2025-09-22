@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const WikiScraper = require('./WikiScraper');
 const TaskPlanner = require('./TaskPlanner');
 const BaritoneInterface = require('./BaritoneInterface');
+const RecipeAnalyzer = require('./RecipeAnalyzer');
 
 /**
  * Intelligent automation engine that uses Minecraft Wiki data to plan and execute tasks
@@ -11,12 +12,13 @@ class AutomationEngine extends EventEmitter {
   constructor(config, logger) {
     super();
     this.config = config;
-    this.logger = logger.child('AutomationEngine');
+    this.logger = logger.child ? logger.child('AutomationEngine') : logger;
     
     // Core components
     this.wikiScraper = new WikiScraper(config, this.logger);
     this.taskPlanner = new TaskPlanner(config, this.logger);
     this.baritone = new BaritoneInterface(config, this.logger);
+    this.recipeAnalyzer = new RecipeAnalyzer(this.wikiScraper, this.logger);
     
     // Task management
     this.activeTasks = new Map(); // taskId -> task info
@@ -89,6 +91,80 @@ class AutomationEngine extends EventEmitter {
       lastUpdate: Date.now(),
       currentTask: clusterData.currentTask
     });
+  }
+
+  /**
+   * Create a complex task using advanced recipe analysis
+   * Example: createComplexTask('gather', { item: 'diamond_block', quantity: 256 }, 'mining_cluster')
+   */
+  async createComplexTask(taskType, parameters, assignedCluster = null) {
+    const taskId = uuidv4();
+    
+    this.logger.info(`Creating complex task: ${taskType}`, { taskId, parameters });
+
+    try {
+      let executionPlan;
+      
+      if (taskType === 'gather' && parameters.item && parameters.quantity) {
+        // Use RecipeAnalyzer for complex gathering tasks
+        const analysisResult = await this.recipeAnalyzer.analyzeComplexGoal(
+          parameters.item, 
+          parameters.quantity, 
+          {
+            maxClusterSize: 10,
+            timeLimit: parameters.timeLimit || 7200000, // 2 hours default
+            assignedCluster: assignedCluster
+          }
+        );
+        
+        executionPlan = {
+          type: 'complex_analysis',
+          steps: analysisResult.executionSteps,
+          estimatedDuration: analysisResult.estimatedTime,
+          resourceRequirements: analysisResult.resourceRequirements,
+          optimizedPlan: analysisResult.recommendedPlan
+        };
+        
+        this.logger.info(`Complex analysis complete for ${parameters.quantity}x ${parameters.item}:`, {
+          totalMethods: analysisResult.totalMethods,
+          estimatedTime: Math.round(analysisResult.estimatedTime / 1000) + 's',
+          resourceTypes: Object.keys(analysisResult.resourceRequirements).length
+        });
+      } else {
+        // Fall back to regular task planning
+        executionPlan = await this.taskPlanner.createExecutionPlan(taskType, parameters);
+      }
+
+      const task = {
+        id: taskId,
+        type: taskType,
+        complexity: 'advanced',
+        parameters: parameters,
+        assignedCluster: assignedCluster,
+        executionPlan: executionPlan,
+        status: 'pending',
+        progress: 0,
+        created: Date.now(),
+        started: null,
+        completed: null,
+        error: null,
+        estimatedDuration: executionPlan.estimatedDuration || 300000,
+        priority: parameters.priority || 8, // Higher priority for complex tasks
+        results: {}
+      };
+
+      this.activeTasks.set(taskId, task);
+      this.taskQueue.push(taskId);
+      this.stats.totalTasks++;
+
+      this.logger.info(`Complex task created: ${taskType} (${taskId})`);
+      this.emit('task_created', task);
+
+      return taskId;
+    } catch (error) {
+      this.logger.error(`Failed to create complex task ${taskType}:`, error);
+      throw error;
+    }
   }
 
   async createTask(taskType, parameters, assignedCluster = null) {

@@ -9,7 +9,7 @@ const path = require('path');
 class WikiScraper {
   constructor(config, logger) {
     this.config = config;
-    this.logger = logger.child('WikiScraper');
+    this.logger = logger.child ? logger.child('WikiScraper') : logger;
     
     this.baseUrl = 'https://minecraft.fandom.com/wiki/';
     this.cacheDir = path.join(__dirname, '../../cache/wiki');

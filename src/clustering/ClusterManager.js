@@ -10,7 +10,7 @@ class ClusterManager extends EventEmitter {
   constructor(config, logger) {
     super();
     this.config = config;
-    this.logger = logger.child('ClusterManager');
+    this.logger = logger.child ? logger.child('ClusterManager') : logger;
     
     // Data structures
     this.clients = new Map(); // clientId -> client info

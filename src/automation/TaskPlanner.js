@@ -4,7 +4,7 @@
 class TaskPlanner {
   constructor(config, logger) {
     this.config = config;
-    this.logger = logger.child('TaskPlanner');
+    this.logger = logger.child ? logger.child('TaskPlanner') : logger;
     this.initialized = false;
   }
 

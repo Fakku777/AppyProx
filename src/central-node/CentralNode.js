@@ -8,7 +8,7 @@ class CentralNode extends EventEmitter {
   constructor(config, logger) {
     super();
     this.config = config;
-    this.logger = logger.child('CentralNode');
+    this.logger = logger.child ? logger.child('CentralNode') : logger;
     this.isRunning = false;
     
     // Account tracking

@@ -1,6 +1,7 @@
 const EventEmitter = require('events');
 const minecraft = require('minecraft-protocol');
 const { v4: uuidv4 } = require('uuid');
+const ViaVersionManager = require('./ViaVersionManager');
 
 /**
  * Core proxy server that handles Minecraft client connections
@@ -14,6 +15,7 @@ class ProxyServer extends EventEmitter {
     
     this.server = null;
     this.clients = new Map(); // Map of client connections
+    this.viaVersionManager = null;
     this.isRunning = false;
     
     // Connection statistics
@@ -27,8 +29,14 @@ class ProxyServer extends EventEmitter {
   }
 
   async start() {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
+        // Initialize ViaVersion manager if enabled
+        if (this.config.viaversion?.enabled) {
+          this.viaVersionManager = new ViaVersionManager(this.config, this.logger);
+          await this.viaVersionManager.initialize();
+          this.logger.info('ViaVersion manager initialized');
+        }
         this.server = minecraft.createServer({
           'online-mode': this.config.online_mode,
           encryption: this.config.encryption,
@@ -101,6 +109,11 @@ class ProxyServer extends EventEmitter {
       this.stats.activeConnections++;
 
       this.logger.info(`Client connected: ${client.username} (${clientId}) from ${client.socket.remoteAddress}`);
+      
+      // Register with ViaVersion manager if available
+      if (this.viaVersionManager) {
+        this.viaVersionManager.registerClient(clientInfo);
+      }
       
       this.setupClientEvents(clientId, clientInfo);
       this.emit('client_connected', clientInfo);

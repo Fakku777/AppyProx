@@ -6,7 +6,7 @@ const express = require('express');
 class AppyProxAPI {
   constructor(config, logger, proxyInstance) {
     this.config = config;
-    this.logger = logger.child('API');
+    this.logger = logger.child ? logger.child('API') : logger;
     this.proxy = proxyInstance;
     this.app = express();
     this.server = null;
@@ -56,6 +56,35 @@ class AppyProxAPI {
       try {
         const taskId = this.proxy.automationEngine.createTask(type, parameters, cluster);
         res.json({ success: true, taskId });
+      } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
+      }
+    });
+
+    this.app.post('/tasks/complex', (req, res) => {
+      const { type, parameters, cluster } = req.body;
+      try {
+        const taskId = this.proxy.automationEngine.createComplexTask(type, parameters, cluster);
+        res.json({ success: true, taskId });
+      } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
+      }
+    });
+
+    // Diamond block example endpoint
+    this.app.post('/tasks/diamond-blocks', (req, res) => {
+      const { quantity = 256, cluster = 'mining_cluster' } = req.body;
+      try {
+        const taskId = this.proxy.automationEngine.createComplexTask('gather', {
+          item: 'diamond_block',
+          quantity: quantity,
+          timeLimit: 7200000 // 2 hours
+        }, cluster);
+        res.json({ 
+          success: true, 
+          taskId,
+          message: `Started advanced diamond block gathering task for ${quantity} blocks`
+        });
       } catch (error) {
         res.status(400).json({ success: false, error: error.message });
       }

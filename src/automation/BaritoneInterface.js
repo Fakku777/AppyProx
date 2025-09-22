@@ -4,7 +4,7 @@
 class BaritoneInterface {
   constructor(config, logger) {
     this.config = config;
-    this.logger = logger.child('BaritoneInterface');
+    this.logger = logger.child ? logger.child('BaritoneInterface') : logger;
     this.initialized = false;
     this.activeOperations = new Map(); // clusterId -> operation
   }
