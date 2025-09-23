@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AppyProx Interface Test</title>
+    <style>
+        body { font-family: monospace; background: #0f1419; color: #c9d1d9; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #30363d; border-radius: 6px; }
+        .success { color: #3fb950; }
+        .error { color: #f85149; }
+        .test-result { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>🗺️ AppyProx Xaeros Interface Test</h1>
+    
+    <div class="test-section">
+        <h2>🔌 Server Connection Test</h2>
+        <div id="server-test" class="test-result">Testing...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎮 API Endpoints Test</h2>
+        <div id="api-status-test" class="test-result">Testing /api/status...</div>
+        <div id="api-accounts-test" class="test-result">Testing /api/accounts...</div>
+        <div id="api-tasks-test" class="test-result">Testing /api/tasks...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🖼️ Interface Elements Test</h2>
+        <div id="interface-test" class="test-result">Testing interface elements...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📋 Test Results Summary</h2>
+        <div id="summary" class="test-result"></div>
+        <br>
+        <a href="http://localhost:25577" target="_blank" style="color: #58a6ff;">🚀 Open Xaeros Interface</a>
+    </div>
+
+    <script>
+        let passedTests = 0;
+        let totalTests = 0;
+
+        function runTests() {
+            // Test 1: Server connection
+            totalTests++;
+            fetch('http://localhost:25577')
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('server-test').innerHTML = '<span class="success">✓ Server is running on port 25577</span>';
+                        passedTests++;
+                    } else {
+                        document.getElementById('server-test').innerHTML = '<span class="error">✗ Server responded with error: ' + response.status + '</span>';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('server-test').innerHTML = '<span class="error">✗ Cannot connect to server: ' + error.message + '</span>';
+                });
+
+            // Test 2-4: API endpoints
+            const endpoints = [
+                { path: '/api/status', element: 'api-status-test', name: 'Status API' },
+                { path: '/api/accounts', element: 'api-accounts-test', name: 'Accounts API' },
+                { path: '/api/tasks', element: 'api-tasks-test', name: 'Tasks API' }
+            ];
+
+            endpoints.forEach(endpoint => {
+                totalTests++;
+                fetch('http://localhost:25577' + endpoint.path)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById(endpoint.element).innerHTML = 
+                            `<span class="success">✓ ${endpoint.name} working - returned: ${JSON.stringify(data).substring(0, 50)}...</span>`;
+                        passedTests++;
+                        updateSummary();
+                    })
+                    .catch(error => {
+                        document.getElementById(endpoint.element).innerHTML = 
+                            `<span class="error">✗ ${endpoint.name} failed: ${error.message}</span>`;
+                        updateSummary();
+                    });
+            });
+
+            // Test 5: Interface elements
+            totalTests++;
+            fetch('http://localhost:25577')
+                .then(response => response.text())
+                .then(html => {
+                    const requiredElements = [
+                        'id="world-map"',
+                        'id="minimap"', 
+                        'id="terminal-container"',
+                        'id="terminal-input"',
+                        'Xaeros World Map Interface'
+                    ];
+                    
+                    const foundElements = requiredElements.filter(element => html.includes(element));
+                    
+                    if (foundElements.length === requiredElements.length) {
+                        document.getElementById('interface-test').innerHTML = 
+                            '<span class="success">✓ All required interface elements present (' + foundElements.length + '/' + requiredElements.length + ')</span>';
+                        passedTests++;
+                    } else {
+                        document.getElementById('interface-test').innerHTML = 
+                            '<span class="error">✗ Missing interface elements (' + foundElements.length + '/' + requiredElements.length + ')</span>';
+                    }
+                    updateSummary();
+                })
+                .catch(error => {
+                    document.getElementById('interface-test').innerHTML = 
+                        '<span class="error">✗ Failed to load interface: ' + error.message + '</span>';
+                    updateSummary();
+                });
+        }
+
+        function updateSummary() {
+            setTimeout(() => {
+                const summaryElement = document.getElementById('summary');
+                if (passedTests === totalTests) {
+                    summaryElement.innerHTML = `<span class="success">🎉 All tests passed! (${passedTests}/${totalTests})<br>The Xaeros interface is ready to use!</span>`;
+                } else {
+                    summaryElement.innerHTML = `<span class="error">⚠️ ${passedTests}/${totalTests} tests passed. Check failed tests above.</span>`;
+                }
+            }, 100);
+        }
+
+        // Start tests
+        runTests();
+    </script>
+</body>
+</html>
