@@ -1,6 +1,6 @@
 {
   "name": "appyprox",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha",
   "description": "Advanced Minecraft proxy with clustering, automation, and centralized management",
   "main": "src/proxy/main.js",
   "scripts": {
