@@ -1,0 +1,40 @@
+{
+  "accounts": [
+    {
+      "username": "example_account_1",
+      "email": "example1@email.com",
+      "password": "password123",
+      "cluster": "Mining Group",
+      "role": "leader",
+      "autoConnect": true,
+      "targetServer": "localhost:25565",
+      "settings": {
+        "autoReconnect": true,
+        "reconnectDelay": 7000,
+        "preferredSlot": 0,
+        "priorityLevel": 10
+      }
+    },
+    {
+      "username": "example_account_2", 
+      "email": "example2@email.com",
+      "password": "password123",
+      "cluster": "Mining Group",
+      "role": "member",
+      "autoConnect": true,
+      "targetServer": "localhost:25565",
+      "settings": {
+        "autoReconnect": true,
+        "reconnectDelay": 7000,
+        "preferredSlot": 1,
+        "priorityLevel": 8
+      }
+    }
+  ],
+  "global_settings": {
+    "default_server": "localhost:25565",
+    "auto_assign_to_cluster": true,
+    "health_monitoring": true,
+    "backup_inventories": true
+  }
+}

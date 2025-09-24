@@ -1,0 +1,89 @@
+{
+  "proxy": {
+    "host": "0.0.0.0",
+    "port": 25565,
+    "version": "1.20.4",
+    "online_mode": false,
+    "encryption": true,
+    "compression": true
+  },
+  "clustering": {
+    "max_accounts_per_cluster": 10,
+    "reconnect_interval": 7000,
+    "sync_interval": 1000,
+    "health_check_interval": 5000
+  },
+  "automation": {
+    "wiki_cache_duration": 86400000,
+    "task_timeout": 300000,
+    "max_concurrent_tasks": 5,
+    "pathfinding": {
+      "baritone_enabled": true,
+      "max_path_length": 1000,
+      "goal_timeout": 60000
+    }
+  },
+  "central_node": {
+    "enabled": true,
+    "web_interface_port": 8080,
+    "websocket_port": 8081,
+    "xaeros_integration": true,
+    "map_update_interval": 2000,
+    "status_update_interval": 1000
+  },
+  "webUI": {
+    "enabled": true,
+    "host": "localhost",
+    "port": 25577
+  },
+  "mods": {
+    "viaversion": {
+      "enabled": true,
+      "supported_versions": ["1.20.4", "1.20.1", "1.19.4", "1.19.2", "1.18.2"]
+    },
+    "litematica": {
+      "enabled": true,
+      "schematic_path": "./schemas/",
+      "auto_build": false
+    },
+    "baritone": {
+      "enabled": true,
+      "config": {
+        "allowBreak": true,
+        "allowPlace": true,
+        "allowParkour": true,
+        "allowSprint": true
+      }
+    }
+  },
+  "api": {
+    "enabled": true,
+    "port": 3000,
+    "auth_required": false,
+    "rate_limit": {
+      "requests_per_minute": 100
+    }
+  },
+  "proxy_client_bridge": {
+    "enabled": true,
+    "bridge_port": 25800,
+    "java_executable": "java",
+    "auto_build": true,
+    "restart_on_failure": true,
+    "max_restart_attempts": 5,
+    "startup_timeout": 60000,
+    "command_timeout": 30000
+  },
+  "logging": {
+    "level": "info",
+    "file": "logs/appyprox.log",
+    "max_file_size": "10mb",
+    "max_files": 5
+  },
+  "backup": {
+    "enabled": true,
+    "interval": 3600000,
+    "retain_count": 10,
+    "compress": true
+  }
+}

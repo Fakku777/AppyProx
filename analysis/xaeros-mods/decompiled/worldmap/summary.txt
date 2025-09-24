@@ -1,0 +1,9 @@
+Summary for XaerosWorldMap_1.39.13_Fabric_1.21.8.jar
+Decompiled with CFR 0.152
+
+
+xaero.map.region.LeveledRegion
+----------------------------
+
+loadCacheTextures(xaero.map.MapProcessor net.minecraft.class_2378<net.minecraft.class_1959> boolean boolean[][] int boolean[] boolean[] int xaero.map.file.OldFormatSupport )
+  Loose catch block

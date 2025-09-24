@@ -1,0 +1,38 @@
+{
+  "accounts": [
+    {
+      "id": "test_account_1",
+      "username": "TestBot1",
+      "uuid": "550e8400-e29b-41d4-a716-446655440001",
+      "accessToken": "test_access_token_1",
+      "enabled": false,
+      "cluster": "test_cluster",
+      "proxy_client": {
+        "enabled": true,
+        "auto_start": false,
+        "config": {
+          "headless": true,
+          "serverAddress": "localhost",
+          "serverPort": 25565
+        }
+      }
+    },
+    {
+      "id": "test_account_2", 
+      "username": "TestBot2",
+      "uuid": "550e8400-e29b-41d4-a716-446655440002",
+      "accessToken": "test_access_token_2",
+      "enabled": false,
+      "cluster": "test_cluster",
+      "proxy_client": {
+        "enabled": true,
+        "auto_start": false,
+        "config": {
+          "headless": true,
+          "serverAddress": "localhost",
+          "serverPort": 25565
+        }
+      }
+    }
+  ]
+}

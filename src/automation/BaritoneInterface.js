@@ -1,7 +1,11 @@
 /**
  * Enhanced Baritone pathfinding and automation interface
  * Provides comprehensive mining, building, and movement automation
+ * Now integrates with the new PathfindingAutomation system
  */
+
+const PathfindingAutomation = require('../pathfinding/PathfindingAutomation');
+
 class BaritoneInterface {
   constructor(config, logger) {
     this.config = config;
@@ -12,6 +16,12 @@ class BaritoneInterface {
     this.activeOperations = new Map(); // clusterId -> operation
     this.pathfindingCache = new Map(); // path -> cached route
     this.inventoryStates = new Map(); // clientId -> inventory
+    
+    // Pathfinding automation system
+    this.pathfindingAutomation = new PathfindingAutomation({
+      ...this.config.pathfinding,
+      logger: this.logger
+    });
     
     // Configuration
     this.baritoneConfig = {
@@ -28,6 +38,35 @@ class BaritoneInterface {
     if (this.initialized) return;
     this.logger.info('Baritone interface initialized');
     this.initialized = true;
+  }
+  
+  /**
+   * Register a bot with the pathfinding automation system
+   */
+  async registerBot(botId, botProxy, pathfindingOptions = {}) {
+    try {
+      await this.pathfindingAutomation.registerBot(botId, botProxy, {
+        ...this.baritoneConfig,
+        ...pathfindingOptions
+      });
+      
+      this.logger.info(`Registered bot ${botId} with pathfinding automation`);
+    } catch (error) {
+      this.logger.error(`Failed to register bot ${botId}:`, error.message);
+      throw error;
+    }
+  }
+  
+  /**
+   * Unregister a bot from pathfinding automation
+   */
+  async unregisterBot(botId) {
+    try {
+      await this.pathfindingAutomation.unregisterBot(botId);
+      this.logger.info(`Unregistered bot ${botId} from pathfinding automation`);
+    } catch (error) {
+      this.logger.error(`Failed to unregister bot ${botId}:`, error.message);
+    }
   }
 
   async executeGathering({ resource, quantity, method, clusterId }) {
@@ -55,16 +94,45 @@ class BaritoneInterface {
     };
   }
 
-  async executeMovement({ target, precision, clusterId }) {
+  async executeMovement({ target, precision, clusterId, assignedBots = [] }) {
     this.logger.debug(`Executing movement to ${JSON.stringify(target)} for cluster ${clusterId}`);
     
-    await this.delay(3000);
-    
-    return {
-      success: true,
-      finalPosition: target,
-      timeElapsed: 3000
-    };
+    try {
+      // If we have assigned bots, use coordinated pathfinding
+      if (assignedBots.length > 0) {
+        const groupId = `movement_${Date.now()}`;
+        const group = this.pathfindingAutomation.createGroup(groupId, assignedBots);
+        
+        const result = await this.pathfindingAutomation.executeGroupMovement(
+          groupId, 
+          target, 
+          { precision }
+        );
+        
+        return {
+          success: result.success,
+          finalPosition: target,
+          groupResult: result,
+          timeElapsed: 3000
+        };
+      } else {
+        // Fallback to simple movement
+        await this.delay(3000);
+        
+        return {
+          success: true,
+          finalPosition: target,
+          timeElapsed: 3000
+        };
+      }
+    } catch (error) {
+      this.logger.error(`Movement execution failed:`, error.message);
+      return {
+        success: false,
+        error: error.message,
+        timeElapsed: 0
+      };
+    }
   }
 
   async executeBuild({ schematic, location, materials, clusterId }) {
@@ -444,6 +512,38 @@ class BaritoneInterface {
     return { success: true, action: 'distribute', itemsDistributed: items };
   }
 
+  /**
+   * Get pathfinding automation status
+   */
+  getPathfindingStatus() {
+    return this.pathfindingAutomation.getDetailedStatus();
+  }
+  
+  /**
+   * Execute task-specific pathfinding
+   */
+  async executeTaskPathfinding(taskId, taskType, parameters, assignedBots) {
+    try {
+      return await this.pathfindingAutomation.executeTaskPathfinding(
+        taskId, 
+        taskType, 
+        parameters, 
+        assignedBots
+      );
+    } catch (error) {
+      this.logger.error(`Task pathfinding failed for ${taskId}:`, error.message);
+      throw error;
+    }
+  }
+  
+  /**
+   * Emergency stop all pathfinding operations
+   */
+  emergencyStop() {
+    this.pathfindingAutomation.emergencyStop();
+    this.logger.warn('Emergency stop activated for all pathfinding operations');
+  }
+  
   // Get comprehensive status
   getEnhancedStatus() {
     return {
@@ -457,8 +557,31 @@ class BaritoneInterface {
         duration: op.endTime ? (op.endTime - op.startTime) : (Date.now() - op.startTime)
       })),
       cachedRoutes: this.pathfindingCache.size,
-      configuration: this.baritoneConfig
+      configuration: this.baritoneConfig,
+      pathfindingAutomation: this.pathfindingAutomation.getStats()
     };
+  }
+  
+  /**
+   * Shutdown the Baritone interface and pathfinding automation
+   */
+  async shutdown() {
+    this.logger.info('Shutting down Baritone interface');
+    
+    // Stop all active operations
+    for (const [clusterId] of this.activeOperations) {
+      await this.stopClusterOperations(clusterId);
+    }
+    
+    // Shutdown pathfinding automation
+    await this.pathfindingAutomation.shutdown();
+    
+    this.activeOperations.clear();
+    this.pathfindingCache.clear();
+    this.inventoryStates.clear();
+    
+    this.initialized = false;
+    this.logger.info('Baritone interface shutdown complete');
   }
 }
 

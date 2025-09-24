@@ -1,0 +1,18 @@
+{
+  "id": "68b794d5-ecd5-4ef6-9de8-af0db54f9299",
+  "type": "uncaught_exception",
+  "message": "listen EADDRINUSE: address already in use ::1:25577",
+  "stack": "Error: listen EADDRINUSE: address already in use ::1:25577\n    at Server.setupListenHandle [as _listen2] (node:net:1937:16)\n    at listenInCluster (node:net:1994:12)\n    at GetAddrInfoReqWrap.callback (node:net:2203:7)\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:132:8)",
+  "timestamp": 1758734126111,
+  "context": {
+    "stack": "Error: listen EADDRINUSE: address already in use ::1:25577\n    at Server.setupListenHandle [as _listen2] (node:net:1937:16)\n    at listenInCluster (node:net:1994:12)\n    at GetAddrInfoReqWrap.callback (node:net:2203:7)\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:132:8)",
+    "fatal": true,
+    "severity": "critical",
+    "recoverable": false
+  },
+  "severity": "critical",
+  "recoverable": false,
+  "attempts": 0,
+  "recovered": false,
+  "recoveryTime": null
+}

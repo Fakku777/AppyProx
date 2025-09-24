@@ -1,0 +1,7 @@
+{
+  "logLevel": "info",
+  "maxLogFiles": 10,
+  "logRotationSize": 10485760,
+  "enableMetrics": true,
+  "metricsInterval": 30000
+}

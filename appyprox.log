@@ -1,0 +1,83 @@
+
+> appyprox@0.0.1 start
+> node src/proxy/main.js
+
+[36m[2025-09-24T17:16:04.571Z] [INFO] Initializing AppyProx...[0m
+[36m[2025-09-24T17:16:04.574Z] [INFO] [ConfigManager] Initializing configuration manager...[0m
+[36m[2025-09-24T17:16:04.574Z] [INFO] [ConfigManager] Loading all configurations...[0m
+[33m[2025-09-24T17:16:04.577Z] [WARN] [ConfigManager] Failed to load proxy config from /home/april/Projects/AppyProx/configs/default.json, using defaults: "Required configuration field missing: proxy.host"[0m
+[36m[2025-09-24T17:16:04.579Z] [INFO] [ConfigManager] Setting up configuration file watchers...[0m
+[36m[2025-09-24T17:16:04.580Z] [INFO] [ConfigManager] Loaded 3 configuration profiles[0m
+[36m[2025-09-24T17:16:04.581Z] [INFO] [ConfigManager] Configuration manager initialized successfully[0m
+[36m[2025-09-24T17:16:04.582Z] [INFO] [DeploymentManager] Initializing deployment manager...[0m
+[36m[2025-09-24T17:16:04.583Z] [INFO] [DeploymentManager] Initializing standalone mode...[0m
+[36m[2025-09-24T17:16:04.583Z] [INFO] [DeploymentManager] Setting up health monitoring...[0m
+[36m[2025-09-24T17:16:04.584Z] [INFO] [DeploymentManager] Deployment manager initialized in standalone mode[0m
+[36m[2025-09-24T17:16:04.585Z] [INFO] [CircuitBreaker] Default circuit breakers initialized[0m
+[36m[2025-09-24T17:16:04.585Z] [INFO] [ClusterManager] Loaded 0 cluster configurations[0m
+[36m[2025-09-24T17:16:04.585Z] [INFO] [ClusterManager] Loaded configuration for 2 accounts[0m
+[36m[2025-09-24T17:16:04.592Z] [INFO] [ErrorRecovery] Initializing error recovery system...[0m
+[36m[2025-09-24T17:16:04.594Z] [INFO] [ErrorRecovery] Loaded 1 historical error records[0m
+[36m[2025-09-24T17:16:04.594Z] [INFO] [ErrorRecovery] Error recovery system initialized successfully[0m
+[36m[2025-09-24T17:16:04.594Z] [INFO] [HealthMonitor] Initializing health monitoring system...[0m
+[36m[2025-09-24T17:16:04.596Z] [INFO] [HealthMonitor] Health monitoring system initialized successfully[0m
+[36m[2025-09-24T17:16:04.597Z] [INFO] [GroupManager] Loaded 8 group configurations[0m
+[36m[2025-09-24T17:16:04.598Z] [INFO] [GroupManager] Loaded configuration for 2 accounts[0m
+[36m[2025-09-24T17:16:04.599Z] [INFO] [WebUI] Initializing WebUI server...[0m
+[36m[2025-09-24T17:16:04.602Z] [INFO] [WebUI] Initializing Minecraft rendering systems...[0m
+[36m[2025-09-24T17:16:04.602Z] [INFO] [WebUI] Initializing Minecraft texture manager...[0m
+[36m[2025-09-24T17:16:04.603Z] [INFO] [WebUI] Loaded 21 block textures, 7 item textures, 8 entity textures[0m
+[36m[2025-09-24T17:16:04.604Z] [INFO] [WebUI] Checking for missing textures...[0m
+[36m[2025-09-24T17:16:04.606Z] [INFO] [WebUI] Created placeholder textures[0m
+[36m[2025-09-24T17:16:04.607Z] [INFO] [WebUI] Creating texture atlases...[0m
+[33m[2025-09-24T17:16:04.701Z] [WARN] [HealthMonitor] Health alert: High CPU usage: 100%[0m
+[36m[2025-09-24T17:16:04.701Z] [INFO] [WebUI] Created blocks atlas with 21 textures[0m
+[36m[2025-09-24T17:16:04.761Z] [INFO] [WebUI] Created items atlas with 7 textures[0m
+[36m[2025-09-24T17:16:04.805Z] [INFO] [WebUI] Created entities atlas with 8 textures[0m
+[36m[2025-09-24T17:16:04.805Z] [INFO] [WebUI] Texture manager initialized with 0 textures[0m
+[36m[2025-09-24T17:16:04.806Z] [INFO] [WebUI] Initializing TPS manager...[0m
+[36m[2025-09-24T17:16:04.806Z] [INFO] [WebUI] TPS manager initialized with target 20 TPS[0m
+[36m[2025-09-24T17:16:04.807Z] [INFO] [WebUI] Initializing chunk renderer...[0m
+[36m[2025-09-24T17:16:04.807Z] [INFO] [WebUI] Chunk renderer initialized[0m
+[36m[2025-09-24T17:16:04.808Z] [INFO] [WebUI] Groups visualization system integrated[0m
+[36m[2025-09-24T17:16:04.809Z] [INFO] [WebUI] Command terminal system initialized[0m
+[36m[2025-09-24T17:16:04.809Z] [INFO] [WebUI] Minecraft rendering systems initialized[0m
+[36m[2025-09-24T17:16:04.821Z] [INFO] [WebUI] WebUI server started on http://localhost:25577[0m
+[36m[2025-09-24T17:16:04.821Z] [INFO] [WebUI] WebUI server initialized on http://localhost:25577[0m
+[36m[2025-09-24T17:16:04.822Z] [INFO] [GroupsIntegration] Initializing Groups integration...[0m
+[36m[2025-09-24T17:16:04.822Z] [INFO] [GroupManager] Starting group manager...[0m
+[36m[2025-09-24T17:16:04.822Z] [INFO] [GroupManager] Group manager started[0m
+[36m[2025-09-24T17:16:04.822Z] [INFO] [GroupsIntegration] Registered Groups HTTP endpoints[0m
+[36m[2025-09-24T17:16:04.822Z] [INFO] [GroupsIntegration] Groups integration initialized[0m
+[36m[2025-09-24T17:16:04.823Z] [INFO] Component connections established[0m
+[36m[2025-09-24T17:16:04.823Z] [INFO] AppyProx initialization completed[0m
+[36m[2025-09-24T17:16:05.012Z] [INFO] Proxy server listening on 0.0.0.0:25565[0m
+[36m[2025-09-24T17:16:05.013Z] [INFO] Proxy server started on 0.0.0.0:25565[0m
+[36m[2025-09-24T17:16:05.013Z] [INFO] [ClusterManager] Starting cluster manager...[0m
+[36m[2025-09-24T17:16:05.013Z] [INFO] [ClusterManager] Cluster manager started[0m
+[36m[2025-09-24T17:16:05.013Z] [INFO] Cluster manager started[0m
+[36m[2025-09-24T17:16:05.013Z] [INFO] [AutomationEngine] Starting automation engine...[0m
+[36m[2025-09-24T17:16:05.014Z] [INFO] [AutomationEngine] Initializing wiki scraper...[0m
+[36m[2025-09-24T17:16:05.014Z] [INFO] [AutomationEngine] Wiki scraper initialized[0m
+[36m[2025-09-24T17:16:05.014Z] [INFO] [AutomationEngine] Task planner initialized with comprehensive execution logic[0m
+[36m[2025-09-24T17:16:05.015Z] [INFO] [AutomationEngine] Baritone interface initialized[0m
+[36m[2025-09-24T17:16:05.015Z] [INFO] [AutomationEngine] Initializing Litematica manager...[0m
+[36m[2025-09-24T17:16:05.015Z] [INFO] [AutomationEngine] Loaded 1 schematics from /home/april/Projects/AppyProx/schemas[0m
+[36m[2025-09-24T17:16:05.016Z] [INFO] [AutomationEngine] Litematica manager initialized with 1 schematics[0m
+[36m[2025-09-24T17:16:05.016Z] [INFO] [AutomationEngine] Automation engine started successfully[0m
+[36m[2025-09-24T17:16:05.016Z] [INFO] Automation engine started[0m
+[36m[2025-09-24T17:16:05.016Z] [INFO] [API] API server listening on port 3000[0m
+[36m[2025-09-24T17:16:05.016Z] [INFO] API server started on port 3000[0m
+[36m[2025-09-24T17:16:05.017Z] [INFO] [ProxyClientBridge] Starting Proxy Client Bridge...[0m
+[36m[2025-09-24T17:16:05.017Z] [INFO] [ProxyClientBridge] Bridge server listening on port 25800[0m
+[36m[2025-09-24T17:16:05.017Z] [INFO] [ProxyClientBridge] Starting Java system: java -Xms512m -Xmx2048m -Dappyprox.config.path=/home/april/Projects/AppyProx/configs -Dappyprox.bridge.port=25800 -Dappyprox.bridge.host=127.0.0.1 -jar /home/april/Projects/AppyProx/AppyProx-FabricMod/build/libs/appyprox-fabric.jar[0m
+[33m[2025-09-24T17:16:05.090Z] [WARN] [ProxyClientBridge] Java Error: Error: Unable to initialize main class dev.aprilrenders.appyprox.AppyProxMain
+Caused by: java.lang.NoClassDefFoundError: com/google/gson/JsonElement[0m
+[36m[2025-09-24T17:16:05.102Z] [INFO] [ProxyClientBridge] Java system exited with code 1[0m
+[36m[2025-09-24T17:16:21.971Z] [INFO] [WebUI] WebSocket client connected from ::1[0m
+[36m[2025-09-24T17:17:05.596Z] [INFO] [WebUI] WebSocket client connected from ::1[0m
+[36m[2025-09-24T17:17:53.226Z] [INFO] [GroupManager] Created group: API Test Group (1fe2e266-7ddb-4c3d-83be-bd4946602699) with color #f59e0b[0m
+[36m[2025-09-24T17:17:53.247Z] [INFO] [WebUI] Update rate changed from 20 to 15 updates/second[0m
+[36m[2025-09-24T17:17:54.810Z] [INFO] [WebUI] Update rate changed from 15 to 20 updates/second[0m
+[36m[2025-09-24T17:18:23.221Z] [INFO] [GroupManager] Created group: Final Test Group (b864f9b5-bad9-46b5-9bb1-154c76459f7a) with color #ef4444[0m
+[36m[2025-09-24T17:47:41.775Z] [INFO] [WebUI] WebSocket client connected from ::1[0m

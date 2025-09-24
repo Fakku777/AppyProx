@@ -31,6 +31,11 @@
     "map_update_interval": 2000,
     "status_update_interval": 1000
   },
+  "webUI": {
+    "enabled": true,
+    "host": "localhost",
+    "port": 25577
+  },
   "mods": {
     "viaversion": {
       "enabled": true,
@@ -58,6 +63,16 @@
     "rate_limit": {
       "requests_per_minute": 100
     }
+  },
+  "proxy_client_bridge": {
+    "enabled": true,
+    "bridge_port": 25800,
+    "java_executable": "java",
+    "auto_build": true,
+    "restart_on_failure": true,
+    "max_restart_attempts": 5,
+    "startup_timeout": 60000,
+    "command_timeout": 30000
   },
   "logging": {
     "level": "info",

@@ -1,0 +1,447 @@
+{
+  "groups": [
+    {
+      "id": "1a43eea5-505e-49e5-ace0-2b4a9eebea28",
+      "name": "Mining Team",
+      "created": 1758729108057,
+      "maxSize": 5,
+      "color": "#10b981",
+      "icon": "mining",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [],
+      "leader": null,
+      "status": "idle",
+      "currentTasks": [],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": true,
+        "shareInventory": false,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    },
+    {
+      "id": "f0efef09-4415-4442-a179-d4e64dfff0e1",
+      "name": "Building Crew",
+      "created": 1758729108058,
+      "maxSize": 8,
+      "color": "#3b82f6",
+      "icon": "building",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [],
+      "leader": null,
+      "status": "idle",
+      "currentTasks": [],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": false,
+        "shareInventory": true,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    },
+    {
+      "id": "6fc39eff-a5d8-405a-a125-2cbcc37f4ddc",
+      "name": "Mining Team",
+      "created": 1758729145427,
+      "maxSize": 5,
+      "color": "#10b981",
+      "icon": "mining",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [
+        "client_001_miner"
+      ],
+      "leader": "client_001_miner",
+      "status": "idle",
+      "currentTasks": [
+        {
+          "id": "c815587f-18e7-4e3e-ac02-8d97d666fe4c",
+          "groupId": "6fc39eff-a5d8-405a-a125-2cbcc37f4ddc",
+          "type": "mine",
+          "parameters": {
+            "target": "diamond_ore",
+            "depth": "y=-59"
+          },
+          "priority": "normal",
+          "created": 1758729145442,
+          "status": "running",
+          "progress": 0,
+          "assignedMembers": [
+            "client_001_miner",
+            "client_003_crafter"
+          ],
+          "isLooping": true,
+          "loopCount": 0,
+          "maxLoops": 0,
+          "loopDelay": 30000,
+          "startTime": 1758733642382
+        }
+      ],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": true,
+        "shareInventory": false,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    },
+    {
+      "id": "e4fad502-f87b-4900-b076-db283f4c0ab0",
+      "name": "Building Crew",
+      "created": 1758729145428,
+      "maxSize": 8,
+      "color": "#3b82f6",
+      "icon": "building",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [
+        "client_002_builder",
+        "client_003_crafter"
+      ],
+      "leader": "client_002_builder",
+      "status": "idle",
+      "currentTasks": [
+        {
+          "id": "36dc2d8e-b0bd-44cc-9677-99bb55f3bd4f",
+          "groupId": "e4fad502-f87b-4900-b076-db283f4c0ab0",
+          "type": "build",
+          "parameters": {
+            "schematic": "castle.litematic",
+            "position": "100,64,200"
+          },
+          "priority": "normal",
+          "created": 1758729145442,
+          "status": "running",
+          "progress": 0,
+          "assignedMembers": [
+            "client_002_builder"
+          ],
+          "isLooping": false,
+          "loopCount": 0,
+          "maxLoops": 0,
+          "loopDelay": 5000,
+          "startTime": 1758733642382
+        }
+      ],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": false,
+        "shareInventory": true,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    },
+    {
+      "id": "43d4ad68-bb99-4573-9150-8b6c15b2b809",
+      "name": "Mining Team",
+      "created": 1758729177688,
+      "maxSize": 5,
+      "color": "#10b981",
+      "icon": "mining",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [
+        "client_001_miner"
+      ],
+      "leader": "client_001_miner",
+      "status": "idle",
+      "currentTasks": [
+        {
+          "id": "4ec1c673-d130-49eb-863d-6b625560657e",
+          "groupId": "43d4ad68-bb99-4573-9150-8b6c15b2b809",
+          "type": "mine",
+          "parameters": {
+            "target": "diamond_ore",
+            "depth": "y=-59"
+          },
+          "priority": "normal",
+          "created": 1758729177704,
+          "status": "running",
+          "progress": 0,
+          "assignedMembers": [
+            "client_001_miner",
+            "client_003_crafter"
+          ],
+          "isLooping": true,
+          "loopCount": 0,
+          "maxLoops": 0,
+          "loopDelay": 30000,
+          "startTime": 1758733642382
+        }
+      ],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": true,
+        "shareInventory": false,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    },
+    {
+      "id": "e4e7de01-95aa-44e3-8370-c6c37ec46977",
+      "name": "Building Crew",
+      "created": 1758729177689,
+      "maxSize": 8,
+      "color": "#3b82f6",
+      "icon": "building",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [
+        "client_002_builder",
+        "client_003_crafter"
+      ],
+      "leader": "client_002_builder",
+      "status": "idle",
+      "currentTasks": [
+        {
+          "id": "030b24b1-729f-417d-865a-87567e4f0f67",
+          "groupId": "e4e7de01-95aa-44e3-8370-c6c37ec46977",
+          "type": "build",
+          "parameters": {
+            "schematic": "castle.litematic",
+            "position": "100,64,200"
+          },
+          "priority": "normal",
+          "created": 1758729177704,
+          "status": "running",
+          "progress": 0,
+          "assignedMembers": [
+            "client_002_builder"
+          ],
+          "isLooping": false,
+          "loopCount": 0,
+          "maxLoops": 0,
+          "loopDelay": 5000,
+          "startTime": 1758733642382
+        }
+      ],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": false,
+        "shareInventory": true,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    },
+    {
+      "id": "fd371574-2a21-45c3-9b58-c8712227ef8a",
+      "name": "Test Group",
+      "created": 1758729639117,
+      "maxSize": 5,
+      "color": "#10b981",
+      "icon": "mining",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [
+        "test_client_001"
+      ],
+      "leader": "test_client_001",
+      "status": "idle",
+      "currentTasks": [],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": false,
+        "shareInventory": false,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    },
+    {
+      "id": "bb26f386-785d-4382-8874-446de8ac7764",
+      "name": "Test Mining Group",
+      "created": 1758733919868,
+      "maxSize": 10,
+      "color": "#8b5cf6",
+      "icon": "users",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [],
+      "leader": null,
+      "status": "idle",
+      "currentTasks": [],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": false,
+        "shareInventory": false,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    },
+    {
+      "id": "1fe2e266-7ddb-4c3d-83be-bd4946602699",
+      "name": "API Test Group",
+      "created": 1758734273226,
+      "maxSize": 10,
+      "color": "#f59e0b",
+      "icon": "users",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [],
+      "leader": null,
+      "status": "idle",
+      "currentTasks": [],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": false,
+        "shareInventory": false,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    },
+    {
+      "id": "b864f9b5-bad9-46b5-9bb1-154c76459f7a",
+      "name": "Final Test Group",
+      "created": 1758734303221,
+      "maxSize": 10,
+      "color": "#ef4444",
+      "icon": "users",
+      "autoReconnect": true,
+      "reconnectInterval": 30000,
+      "members": [],
+      "leader": null,
+      "status": "idle",
+      "currentTasks": [],
+      "loopingTask": null,
+      "collapsed": false,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "settings": {
+        "followLeader": false,
+        "shareInventory": false,
+        "syncMovement": false,
+        "autoRespawn": true,
+        "chatRelay": false
+      },
+      "stats": {
+        "totalOnlineTime": 0,
+        "tasksCompleted": 0,
+        "itemsGathered": 0,
+        "blocksPlaced": 0,
+        "distanceTraveled": 0
+      }
+    }
+  ],
+  "lastUpdated": "2025-09-24T17:18:23.221Z"
+}

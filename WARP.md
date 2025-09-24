@@ -2,193 +2,194 @@
 
 This file provides guidance to WARP (warp.dev) when working with code in this repository.
 
-## AppyProx - Minecraft Proxy System
+## Project Overview
 
-AppyProx is a sophisticated Minecraft player proxy system inspired by Zenith Proxy, featuring multi-account clustering, intelligent automation, and centralized management capabilities.
+AppyProx is an advanced Minecraft proxy server with clustering, automation, and centralized management capabilities. Built in Node.js, it provides intelligent bot coordination, error handling, and integration with Minecraft mods like Baritone and Litematica.
 
-## Development Commands
+## Common Development Commands
 
-### Core Operations
+### Installation and Setup
+```bash
+npm install
+```
+
+### Running the Application
 ```bash
 # Start the proxy server
 npm start
 
-# Development mode with hot reloading
+# Development mode with auto-restart
 npm run dev
 
-# Run tests
-npm test
-
-# Build for production
+# Production build
 npm run build
+```
 
-# Create a backup with versioning
+### Testing
+```bash
+# Run tests (Jest)
+npm test
+```
+
+### Backup and Maintenance
+```bash
+# Create a backup
 npm run backup
+
+# Create backup with custom message
+node scripts/backup.js create "Custom backup message"
 
 # List available backups
 node scripts/backup.js list
-
-# Create backup with custom message
-node scripts/backup.js create "Feature implementation complete"
 ```
 
-### Configuration Setup
+### Configuration Management
 ```bash
-# Copy default configurations for first-time setup
-cp configs/default.json configs/config.json
-cp configs/accounts.default.json configs/accounts.json
-cp configs/clusters.default.json configs/clusters.json
-```
+# Configure port mappings
+node scripts/configure-ports.js
 
-### Testing and Development
-```bash
-# Run a single test file
-npx jest path/to/test.js
-
-# Run tests with coverage
-npm test -- --coverage
-
-# Development with nodemon (auto-restart on changes)
-npm run dev
+# The main configuration is in configs/config.json
+# Default configurations are in configs/default.json
 ```
 
 ## Architecture Overview
 
-AppyProx follows a modular, event-driven architecture with five core components that communicate via EventEmitter patterns:
-
 ### Core Components
 
-1. **ProxyServer** (`src/proxy/`) - Core Minecraft protocol handling
-   - Manages client connections to the proxy
-   - Handles packet forwarding between clients and target servers
-   - Supports ViaVersion for multi-version compatibility
+**Main Application (`src/proxy/main.js`)**
+- Entry point that orchestrates all system components
+- Handles graceful startup/shutdown with proper dependency order
+- Manages component interconnections and event routing
+- Implements comprehensive error handling and recovery systems
 
-2. **ClusterManager** (`src/clustering/`) - Account grouping and coordination
-   - Manages clusters of Minecraft accounts working together
-   - Handles auto-assignment based on account configuration
-   - Tracks member health, status, and leadership roles
-   - Persists cluster state to `configs/clusters.json`
+**Proxy Server (`src/proxy/ProxyServer.js`)**
+- Core Minecraft protocol handler using `minecraft-protocol` library
+- Manages client connections and packet forwarding
+- Integrates with ViaVersion for multi-version support
+- Provides connection statistics and monitoring
 
-3. **AutomationEngine** (`src/automation/`) - AI-driven task automation
-   - Uses WikiScraper to fetch Minecraft recipe/crafting data
-   - TaskPlanner creates detailed execution plans for complex tasks
-   - BaritoneInterface integrates with Baritone pathfinding mod
-   - Supports tasks like resource gathering, building, and exploration
+**Clustering System (`src/clustering/ClusterManager.js`)**
+- Groups Minecraft accounts for coordinated activities
+- Automatic cluster assignment based on account configuration
+- Health monitoring and cluster rebalancing
+- Persistent cluster state management in `configs/clusters.json`
 
-4. **CentralNode** (`src/central-node/`) - Management interface
-   - Web interface on port 8080 for real-time monitoring
-   - WebSocket on port 8081 for live updates
-   - Integrates with Xaeros World Map for visualization
-   - Tracks account health, inventory, and task progress
+**Automation Engine (`src/automation/AutomationEngine.js`)**
+- Intelligent task planning using Minecraft Wiki data scraping
+- Integration with Baritone for pathfinding and automated actions
+- Support for Litematica schematic building
+- Complex task analysis with resource optimization
+- Task queue management with priority and retry logic
 
-5. **AppyProxAPI** (`src/api/`) - REST API for external integration
-   - RESTful endpoints for cluster and task management
-   - Health checks and status monitoring
-   - Programmatic access to all proxy functionality
+### Supporting Systems
 
-### Component Communication Flow
+**Error Handling System**
+- `ErrorRecoverySystem`: Automatic error detection and recovery
+- `CircuitBreakerManager`: Prevents cascading failures
+- `HealthMonitor`: Proactive system health monitoring
+- Comprehensive backup and rollback capabilities
 
-The main entry point (`src/proxy/main.js`) orchestrates component lifecycle and establishes event-driven communication:
+**Configuration Management**
+- Centralized configuration in `configs/` directory
+- Dynamic configuration reloading
+- Account management through `configs/accounts.json`
+- Profile-based configurations
 
-- ProxyServer events → ClusterManager (client registration)
-- ClusterManager events → AutomationEngine (cluster updates)  
-- AutomationEngine events → CentralNode (task progress)
-- All components → Logger for centralized logging
+**API and Web Interface**
+- RESTful API server (`src/api/index.js`)
+- Web UI server for management interface
+- Real-time WebSocket communication
+- Health and metrics endpoints
 
-### Configuration System
+**Deployment System**
+- Load balancing capabilities
+- Deployment management and rollback
+- Java-based proxy client bridge integration
 
-AppyProx uses a layered configuration approach:
+### Key Integrations
 
-- `configs/default.json` - Template with all available options
-- `configs/config.json` - Runtime configuration (created from default)
-- `configs/accounts.json` - Minecraft account credentials and cluster assignments
-- `configs/clusters.json` - Persistent cluster definitions and state
+**Minecraft Mods**
+- **Baritone**: Automated pathfinding and building
+- **Litematica**: Schematic loading and construction
+- **ViaVersion**: Multi-version protocol support
+- **Xaero's Minimap**: Map integration for central node
 
-### Key Design Patterns
+**External Services**
+- Minecraft Wiki scraping for automation intelligence
+- Mojang API integration for authentication
+- Real-time monitoring and alerting systems
 
-- **Event-driven architecture**: All components extend EventEmitter
-- **Configuration-driven**: Behavior controlled via JSON configs
-- **Graceful shutdown**: Proper cleanup on SIGTERM/SIGINT
-- **Backup versioning**: Semantic versioning with git tags (AppyProx-Alpha-x.y.z)
-- **Health monitoring**: Regular health checks and reconnection logic
+## Configuration Files
 
-### Integration Points
+- `configs/config.json` - Main configuration (created from default on first run)
+- `configs/default.json` - Default configuration template  
+- `configs/accounts.json` - Account credentials and cluster assignments
+- `configs/clusters.json` - Persistent cluster state
+- `configs/profiles.json` - Bot behavior profiles
+- `configs/automation.json` - Automation task configurations
+- `configs/api.json` - API server settings
+- `configs/system.json` - System-level configurations
 
-- **Minecraft Protocol**: Uses minecraft-protocol library for packet handling
-- **Baritone Mod**: Pathfinding and automated movement via BaritoneInterface
-- **Litematica/Schematica**: Building automation with schematic support
-- **Xaeros World Map**: Enhanced mapping and exploration tracking
-- **ViaVersion**: Multi-version server compatibility
+## Development Notes
 
-## Development Guidelines
+### Component Startup Order
+The application follows a specific initialization sequence:
+1. Configuration loading and validation
+2. Error handling systems (CircuitBreaker, ErrorRecovery, HealthMonitor)
+3. Core proxy server
+4. Cluster manager
+5. Automation engine
+6. API and Web UI servers
+7. Component interconnections
 
-### Adding New Task Types
-When implementing new automation tasks in AutomationEngine:
-1. Add task type to TaskPlanner for execution planning
-2. Implement execution logic in AutomationEngine.executeTaskStep()
-3. Update WikiScraper if new Minecraft data is needed
-4. Add appropriate error handling and progress reporting
+### Error Handling Philosophy
+- All components implement graceful error recovery
+- Circuit breakers prevent cascading failures
+- Health monitoring enables proactive intervention
+- Comprehensive logging and metrics collection
+- Automatic backup creation before critical operations
 
-### Extending Cluster Functionality
-For new cluster behaviors:
-1. Add configuration options to cluster settings schema
-2. Implement logic in ClusterManager event handlers
-3. Update cluster state persistence in saveClustersConfig()
-4. Add API endpoints if external access is needed
+### Task System Architecture
+Tasks in the automation engine support:
+- Complex multi-step execution plans
+- Resource requirement analysis
+- Cluster coordination
+- Progress tracking and resumption
+- Intelligent failure recovery
 
-### Configuration Changes
-- Always update `configs/default.json` with new options
-- Maintain backward compatibility in config loading
-- Document new settings in INSTALLATION.md
-- Consider migration logic for existing installations
+### Configuration Patterns
+- Configurations cascade from defaults to environment-specific overrides
+- Hot-reloading supported for most configuration changes
+- Validation ensures configuration integrity
+- Backup configurations maintained automatically
 
-### Error Handling
-- Use structured logging with component-specific child loggers
-- Emit events for error conditions that other components need to handle
-- Implement retry logic for network operations
-- Ensure graceful degradation when components fail
+### Mod Integration Approach
+- Plugin-based architecture for mod integrations
+- Standardized interfaces for common mod operations
+- Version compatibility management through ViaVersion
+- Graceful degradation when mods are unavailable
 
-## API Usage Examples
+## Testing Approach
 
-```javascript
-// Creating a new cluster via API
-const cluster = await fetch('http://localhost:3000/clusters', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    name: 'Custom Mining Group',
-    options: { maxSize: 5, autoReconnect: true }
-  })
-});
+Jest is configured for testing but no test files currently exist in the main source tree. When writing tests:
 
-// Starting a resource gathering task
-const task = await fetch('http://localhost:3000/tasks', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    type: 'gather_resource',
-    parameters: { resource: 'diamond', quantity: 64 },
-    cluster: 'mining-cluster-id'
-  })
-});
-```
+- Place test files adjacent to source files with `.test.js` suffix
+- Use integration tests for component interactions
+- Mock external Minecraft connections for unit tests
+- Test error recovery scenarios thoroughly
 
-## Common Development Scenarios
+## Logging and Monitoring
 
-### Testing Cluster Behavior
-1. Configure test accounts in `configs/accounts.json`
-2. Create test clusters with `npm start` and API calls
-3. Monitor cluster coordination via central node web interface
-4. Check logs in `logs/appyprox.log` for detailed debugging
+- Structured logging with configurable levels
+- Component-specific logger instances
+- Health metrics exposed via API endpoints
+- Performance statistics tracking
+- Error pattern analysis and alerting
 
-### Implementing New Automation Features
-1. Study existing task types in AutomationEngine
-2. Add WikiScraper methods for new Minecraft data if needed
-3. Implement task execution logic with proper error handling
-4. Test with small clusters before scaling up
+## Performance Considerations
 
-### Debugging Connection Issues
-1. Check proxy configuration in `configs/config.json`
-2. Verify target server accessibility
-3. Monitor client connection events in logs
-4. Use health check endpoints to verify component status
+- Connection pooling for Minecraft server connections  
+- Efficient packet forwarding with minimal processing overhead
+- Memory management for long-running automation tasks
+- Resource usage monitoring and alerting
+- Cluster load balancing for optimal distribution

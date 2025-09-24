@@ -1,0 +1,50 @@
+{
+  "development": {
+    "name": "Development",
+    "description": "Development environment settings",
+    "overrides": {
+      "system": {
+        "logLevel": "debug"
+      },
+      "automation": {
+        "taskTimeout": 60000,
+        "retryAttempts": 1
+      },
+      "clustering": {
+        "heartbeatInterval": 2000
+      }
+    }
+  },
+  "production": {
+    "name": "Production",
+    "description": "Production environment settings",
+    "overrides": {
+      "system": {
+        "logLevel": "warn"
+      },
+      "automation": {
+        "taskTimeout": 600000,
+        "retryAttempts": 5
+      },
+      "clustering": {
+        "heartbeatInterval": 10000
+      }
+    }
+  },
+  "testing": {
+    "name": "Testing",
+    "description": "Testing environment settings",
+    "overrides": {
+      "system": {
+        "logLevel": "error"
+      },
+      "automation": {
+        "taskTimeout": 10000,
+        "retryAttempts": 0
+      },
+      "clustering": {
+        "heartbeatInterval": 1000
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ const TaskPlanner = require('./TaskPlanner');
 const BaritoneInterface = require('./BaritoneInterface');
 const RecipeAnalyzer = require('./RecipeAnalyzer');
 const LitematicaManager = require('./LitematicaManager');
+const TaskAI = require('../ai/TaskAI');
 
 /**
  * Intelligent automation engine that uses Minecraft Wiki data to plan and execute tasks
@@ -21,6 +22,7 @@ class AutomationEngine extends EventEmitter {
     this.baritone = new BaritoneInterface(config, this.logger);
     this.recipeAnalyzer = new RecipeAnalyzer(this.wikiScraper, this.logger);
     this.litematicaManager = new LitematicaManager(config, this.logger);
+    this.taskAI = new TaskAI(this.logger);
     
     // Task management
     this.activeTasks = new Map(); // taskId -> task info
@@ -52,6 +54,7 @@ class AutomationEngine extends EventEmitter {
       await this.taskPlanner.initialize();
       await this.baritone.initialize();
       await this.litematicaManager.initialize();
+      // TaskAI doesn't need initialization
       
       // Start task processing loop
       this.processingInterval = setInterval(() => {
@@ -96,6 +99,98 @@ class AutomationEngine extends EventEmitter {
     });
   }
 
+  /**
+   * Convert natural language into structured task definitions
+   * @param {string} naturalLanguage - Natural language task description
+   * @param {Object} options - Additional options for task conversion
+   * @returns {Object} Structured task definition
+   */
+  async convertNaturalLanguageTask(naturalLanguage, options = {}) {
+    this.logger.info(`Converting natural language task: ${naturalLanguage}`);
+    
+    try {
+      const result = await this.taskAI.convertToTasks(naturalLanguage, options);
+      
+      if (!result.success) {
+        this.logger.warn(`Failed to convert natural language task: ${result.error}`);
+        return result;
+      }
+      
+      this.logger.info(`Successfully converted natural language to ${result.tasks.length} structured tasks`);
+      return result;
+    } catch (error) {
+      this.logger.error('Error converting natural language task:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Create a task from natural language description
+   * @param {string} naturalLanguage - Natural language task description
+   * @param {Object} options - Additional options
+   * @param {string} assignedCluster - Cluster ID to assign the task to
+   * @returns {string} Created task ID
+   */
+  async createTaskFromNaturalLanguage(naturalLanguage, options = {}, assignedCluster = null) {
+    const taskId = uuidv4();
+    
+    this.logger.info(`Creating task from natural language: "${naturalLanguage}"`, { taskId });
+
+    try {
+      // Convert natural language to structured tasks
+      const conversionResult = await this.convertNaturalLanguageTask(naturalLanguage, options);
+      
+      if (!conversionResult.success) {
+        throw new Error(`Failed to parse natural language: ${conversionResult.error}`);
+      }
+      
+      // Create a complex execution plan based on the AI-generated tasks
+      const executionPlan = {
+        type: 'natural_language',
+        steps: conversionResult.tasks.map(task => ({
+          action: task.action,
+          parameters: task.parameters,
+          estimatedTime: task.estimatedTime
+        })),
+        estimatedDuration: conversionResult.estimatedTime,
+        resourceRequirements: conversionResult.resourceRequirements,
+        recommendedGroupSize: conversionResult.groupRecommendation
+      };
+      
+      const task = {
+        id: taskId,
+        type: 'natural_language',
+        complexity: 'advanced',
+        naturalLanguage: naturalLanguage,
+        parameters: options,
+        assignedCluster: assignedCluster || (conversionResult.groupRecommendation > 2 ? 'auto_assign' : null),
+        executionPlan: executionPlan,
+        status: 'pending',
+        progress: 0,
+        created: Date.now(),
+        started: null,
+        completed: null,
+        error: null,
+        estimatedDuration: conversionResult.estimatedTime || 600000, // 10 minutes default
+        priority: options.priority || 7, // Fairly high priority
+        results: {},
+        aiGenerated: true
+      };
+
+      this.activeTasks.set(taskId, task);
+      this.taskQueue.push(taskId);
+      this.stats.totalTasks++;
+
+      this.logger.info(`Natural language task created: ${naturalLanguage} (${taskId})`);
+      this.emit('task_created', task);
+
+      return taskId;
+    } catch (error) {
+      this.logger.error(`Failed to create task from natural language "${naturalLanguage}":`, error);
+      throw error;
+    }
+  }
+  
   /**
    * Create a complex task using advanced recipe analysis
    * Example: createComplexTask('gather', { item: 'diamond_block', quantity: 256 }, 'mining_cluster')

@@ -1,0 +1,8 @@
+{
+  "enabled": true,
+  "webPort": 8080,
+  "websocketPort": 8081,
+  "enableVisualization": true,
+  "enableAnalytics": true,
+  "updateInterval": 1000
+}

@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "maxConcurrentTasks": 10,
+  "taskTimeout": 300000,
+  "retryAttempts": 3,
+  "baritoneEnabled": true,
+  "litematicaEnabled": true,
+  "wikiScrapingEnabled": true,
+  "resourceOptimization": true
+}
