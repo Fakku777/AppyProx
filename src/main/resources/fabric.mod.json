@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "appyprox",
+  "version": "${version}",
+  "name": "AppyProx Fabric Client",
+  "description": "Advanced Minecraft proxy with clustering, automation, and Xaeros integration",
+  "authors": [
+    "AprilRenders"
+  ],
+  "contact": {
+    "homepage": "https://github.com/AprilRenders/AppyProx",
+    "sources": "https://github.com/AprilRenders/AppyProx"
+  },
+  "license": "MIT",
+  "icon": "assets/appyprox/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.aprilrenders.appyprox.AppyProxFabricClient"
+    ],
+    "modmenu": [
+      "dev.aprilrenders.appyprox.integration.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "appyprox.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "~${minecraft_version}"
+  },
+  "suggests": {
+    "xaeroworldmap": "*",
+    "xaerominimap": "*",
+    "modmenu": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": ["client"],
+      "parent": {
+        "id": "appyprox",
+        "name": "AppyProx",
+        "description": "Advanced Minecraft proxy integration"
+      }
+    }
+  }
+}
